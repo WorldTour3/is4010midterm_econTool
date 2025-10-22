@@ -36,20 +36,10 @@ def test_get_gdp_per_capita_success(mock_requests_get):
     """Test successful fetching of GDP."""
     mock_response = mock_requests_get.return_value
     mock_response.status_code = 200
-    mock_response.json.return_value = {
-        'structure': {
-            'dimensions': {
-                'series': [
-                    {'values': [{'id': 'USA'}]}
-                ]
-            }
-        },
-        'dataSets': [{
-            'series': {
-                '0': {'observations': {'0': [50000.0]}}
-            }
-        }]
-    }
+    mock_response.json.return_value = [
+        {'page': 1, 'pages': 1},
+        [{ 'value': 50000.0 }]
+    ]
 
     gdp = api.get_gdp_per_capita('USA')
     assert gdp == 50000.0
@@ -58,16 +48,7 @@ def test_get_inflation_rate_missing_country(mock_requests_get):
     """Test fetching inflation for a missing country."""
     mock_response = mock_requests_get.return_value
     mock_response.status_code = 200
-    mock_response.json.return_value = {
-        'structure': {
-            'dimensions': {
-                'series': [
-                    {'values': [{'id': 'CAN'}]}
-                ]
-            }
-        },
-        'dataSets': [None] # Simulate missing data
-    }
+    mock_response.json.return_value = [None, None]
 
     inflation = api.get_inflation_rate('MEX') # Different country
     assert inflation is None
