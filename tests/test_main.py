@@ -54,4 +54,4 @@ def test_handle_compare_command(mock_get_inflation, mock_get_gdp, mock_get_info,
 
     assert "Comparing Countrya vs. Countryb" in captured.out
     assert "| GDP (per capita) | $80,000         | $75,000         |" in captured.out
-    assert "| Inflation Rate    | 1.5%            | 2.5%            |" in captured.out
+            assert "| Inflation Rate  | 1.5%            | 2.5%            |" in captured.out
